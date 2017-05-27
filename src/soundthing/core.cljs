@@ -4,8 +4,6 @@
 
 (enable-console-print!)
 
-(println "soundthing")
-
 ;; define your app data so that it doesn't get over-written on reload
 
 (defonce app-state (atom {:text "Hello world!"}))
@@ -16,15 +14,40 @@
   ;; (swap! app-state update-in [:__figwheel_counter] inc)
 )
 
+(defonce audio-context (js/window.AudioContext.))
+
+(rf/reg-event-db
+  :initalize
+  (fn [_ _]
+    {:audio-playing "false"}))
+
+(rf/reg-event-db
+  :start-audio
+  (fn [db [_ playing-state]]
+    (assoc db :audio-playing playing-state)))
+
+(rf/reg-sub
+  :audio-playing
+  (fn [db _]
+    (:audio-playing db)))
+
 (defn toggle-audio []
-  (js/alert "Hello world!"))
+  (rf/dispatch [:start-audio "true"]))
+
+(defn audio-el []
+  [:audio {:src "leadbelly.mp3"}])
 
 (defn home []
   [:div
     [:h1 "well hello there"]
     [:button {:on-click #(toggle-audio)}
       "start"]
+    [audio-el]
+    [:pre (-> @(rf/subscribe [:audio-playing]))]
   ])
 
-(reagent/render-component [home]
-                          (. js/document (getElementById "app")))
+(defn ^:export run
+  []
+  (rf/dispatch-sync [:initialize])
+  (reagent/render [home]
+                  (js/document.getElementById "app")))
