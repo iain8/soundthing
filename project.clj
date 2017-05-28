@@ -11,7 +11,8 @@
                  [org.clojure/core.async  "0.3.442"
                   :exclusions [org.clojure/tools.reader]]
                  [re-frame "0.9.3"]
-                 [reagent "0.6.2"]]
+                 [reagent "0.6.2"]
+                 [day8.re-frame/http-fx "0.1.3"]]
 
   :plugins [[lein-figwheel "0.5.10"]
             [lein-cljsbuild "1.1.5" :exclusions [[org.clojure/clojure]]]]
@@ -25,7 +26,7 @@
                 ;; the presence of a :figwheel configuration here
                 ;; will cause figwheel to inject the figwheel client
                 ;; into your build
-                :figwheel {:on-jsload "soundthing.core/on-js-reload"
+                :figwheel {:on-jsload "soundthing.core/run"
                            ;; :open-urls will pop open your application
                            ;; in the default browser once Figwheel has
                            ;; started and complied your application.
