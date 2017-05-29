@@ -17,7 +17,14 @@
   ; (swap! app-state update-in [:__figwheel_counter] inc)
 )
 
-(defonce audio-context (js/window.AudioContext.))
+(defn create-context
+  []
+  (if js/window.AudioContext.
+    (js/window.AudioContext.)
+    (js/window.webkitAudioContext.)))
+
+;; define audio context
+(defonce audiocontext (create-context))
 
 (rf/reg-event-db
   :initialize
@@ -31,7 +38,7 @@
    :start-audio
    (fn [{:keys [db]} [_ a]]
        {:http-xhrio {:method :get
-               :uri    "loop.mp3"
+               :uri    "leadbelly.mp3"
                :response-format {:content-type "audio/mpeg" :description "MP3 audio file" :read -body :type :arraybuffer}
                :on-success  [:process-response]
                :on-fail     [:bad-response]}
@@ -41,8 +48,8 @@
 (rf/reg-event-db
   :process-response
   (fn [db [_ result]]
-  ;; put audio into buffer
-  (.log js/console "(str result)")))
+  (.decodeAudioData audiocontext result)
+  (.log js/console (str result))))
 
 (rf/reg-event-db
   :bad-response
