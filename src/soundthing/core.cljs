@@ -3,7 +3,8 @@
             [re-frame.core :as rf]
             [day8.re-frame.http-fx]
             [ajax.core :as ajax]
-            [ajax.protocols :refer [-body]]))
+            [ajax.protocols :refer [-body]]
+            [soundthing.audio]))
 
 (enable-console-print!)
 
@@ -16,15 +17,6 @@
   ;; your application
   ; (swap! app-state update-in [:__figwheel_counter] inc)
 )
-
-(defn create-context
-  []
-  (if js/window.AudioContext.
-    (js/window.AudioContext.)
-    (js/window.webkitAudioContext.)))
-
-;; define audio context
-(defonce audiocontext (create-context))
 
 (rf/reg-event-db
   :initialize
@@ -48,8 +40,7 @@
 (rf/reg-event-db
   :process-response
   (fn [db [_ result]]
-  (.decodeAudioData audiocontext result)
-  (.log js/console (str result))))
+  (soundthing.audio.decode-audio result)))
 
 (rf/reg-event-db
   :bad-response
