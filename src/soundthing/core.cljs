@@ -18,8 +18,6 @@
   ; (swap! app-state update-in [:__figwheel_counter] inc)
 )
 
-
-
 (defn handler [data]
   (do
     (soundthing.audio.add-to-source data)
@@ -29,15 +27,20 @@
 (defn error-handler [data]
   (println "error"))
 
-(defn toggle-audio [] 
-  (GET "loop.wav"
-    {:response-format {:content-type "audio/wav" :description "Wave audio file" :read -body :type :arraybuffer}
-    :handler handler
-    :error-handler error-handler }))
+(defn toggle-audio []
+  (if (== (@app-state :audio-playing) "no")
+    (GET "loop.wav"
+      {:response-format {:content-type "audio/wav" :description "Wave audio file" :read -body :type :arraybuffer}
+      :handler handler
+      :error-handler error-handler })
+    (do
+      (soundthing.audio.stop-audio)
+      (swap! app-state assoc :audio-playing "no"))))
+  
 
 (defn home []
   [:div
-    [:h1 "well hello there"]
+    [:h1 "soundthing"]
     [:button {:on-click #(toggle-audio)} "load"]
     [:pre (@app-state :audio-playing)]
   ])
