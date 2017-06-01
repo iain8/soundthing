@@ -14,27 +14,12 @@
 ;; define audio source
 (def source (.createBufferSource context))
 
-(defn error-handler [data]
-  (println "error"))
-
-;; decode some audio data
-(defn decode-audio [data]
-  (let [out (async/chan)]
-    (.decodeAudioData context data
-      (fn [err audio]
-        (async/put! out (if err err audio))
-        (async/close! out)))
-    out))
-
-;; TODO ugh can maybe change this back to a promise
-
-;; add data to a bufferSource
+;; works!
 (defn add-to-source [data]
-  (let [audio (<! (decode-audio data))]
-    (if (instance? js/Error audio)
-      (throw audio)
-      (set! (.-buffer source) data))))
-  ; (catch js/Error e
-  ;   (error-handler e))))
-
-
+  (.then (.decodeAudioData context data) 
+    #(do 
+      (set! (.-buffer source) %)
+      (.connect source (.-destination context))
+      (set! (.-loop source) true)
+      (.start source 0)
+      (println "arse" %))))
