@@ -2,15 +2,16 @@
   (:require [reagent.core :as reagent]
             [ajax.core :refer [GET]]
             [ajax.protocols :refer [-body]]
-            [soundthing.audio]))
+            [soundthing.audio]
+            [soundthing.components.upload]))
 
 (enable-console-print!)
 
 ;; define your app data so that it doesn't get over-written on reload
-
 (defonce app-state 
   (reagent/atom 
-    {:audio-playing "no"}))
+    {:audio-loaded 0
+    :audio-playing 0}))
 
 (defn on-js-reload []
   ;; optionally touch your app-state to force rerendering depending on
@@ -18,40 +19,27 @@
   ; (swap! app-state update-in [:__figwheel_counter] inc)
 )
 
-(defn handler [data]
-  (do
-    (soundthing.audio.add-to-source data)
-    (swap! app-state assoc :audio-playing "yes")))
-
-;; TODO: make better
-(defn error-handler [data]
-  (println "error"))
-
+;; toggle audio button
 (defn toggle-audio []
-  (if (== (@app-state :audio-playing) "no")
-    (GET "loop.wav"
-      {:response-format {:content-type "audio/wav" :description "Wave audio file" :read -body :type :arraybuffer}
-      :handler handler
-      :error-handler error-handler })
+  (if (== (@app-state :audio-playing) 0)
+    (do
+      (soundthing.audio.start-audio)
+      (swap! app-state assoc :audio-playing 1))
     (do
       (soundthing.audio.stop-audio)
-      (swap! app-state assoc :audio-playing "no"))))
+      (swap! app-state assoc :audio-playing 0))))
   
-
+;; home component
 (defn home []
   [:div
     [:h1 "soundthing"]
-    [:button {:on-click #(toggle-audio)} "load"]
+    (soundthing.components.upload.button)
+    [:button 
+      {:on-click #(toggle-audio)
+      :className "button"} "play"]
     [:pre (@app-state :audio-playing)]
   ])
 
-;; does not want to run... why though
-; (defn ^:export run
-;   []
-;   ;; (rf/dispatch-sync [:initialize])
-;   (println "farts")
-;   (reagent/render [home]
-;                   (. js/document (getElementById "app"))))
-
+;; render!
 (reagent/render [home]
   (. js/document (getElementById "app")))

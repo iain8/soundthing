@@ -1,5 +1,4 @@
-(ns soundthing.audio
-  (:require [cljs.core.async :as async :refer [<!]]))
+(ns soundthing.audio)
 
 ;; fetch the audio context
 (defn create-context
@@ -20,8 +19,10 @@
     #(do 
       (set! (.-buffer source) %)
       (.connect source (.-destination context))
-      (set! (.-loop source) true)
-      (.start source 0))))
+      (set! (.-loop source) true))))
+
+(defn start-audio []
+  (.start source 0))
 
 (defn stop-audio []
   (.stop source 0))
