@@ -13,12 +13,6 @@
     {:audio-loaded 0
     :audio-playing 0}))
 
-(defn on-js-reload []
-  ;; optionally touch your app-state to force rerendering depending on
-  ;; your application
-  ; (swap! app-state update-in [:__figwheel_counter] inc)
-)
-
 ;; toggle audio button
 (defn toggle-audio []
   (if (== (@app-state :audio-playing) 0)
@@ -37,7 +31,8 @@
     [:button 
       {:on-click #(toggle-audio)
       :className "button"} "play"]
-    [:pre (@app-state :audio-playing)]
+    [:pre ":audio-loaded " (@app-state :audio-loaded) "\n"
+      ":audio-playing " (@app-state :audio-playing)]
   ])
 
 ;; render!
