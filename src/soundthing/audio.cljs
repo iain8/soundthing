@@ -7,8 +7,7 @@
   :source nil}))
 
 ;; fetch the audio context
-(defn create-context
-  []
+(defn create-context []
   (if js/window.AudioContext.
     (js/window.AudioContext.)
     (js/window.webkitAudioContext.)))
@@ -16,23 +15,28 @@
 ;; define audio context
 (defonce context (create-context))
 
-;; define audio source
+;; create a new audio source
 (defn make-source []
-  (swap! audio-state assoc :source (.createBufferSource context)))
+  (do
+    (swap! audio-state assoc :source (.createBufferSource context))
+    (.connect (@audio-state :source) (.-destination context))
+    (set! (.-loop (@audio-state :source)) true)))
 
-;; decode audio, add to source and start playing (TOO MUCH FOR ONE METHOD)
+;; decode audio and add to state
 (defn add-to-source [data]
   (.then (.decodeAudioData context data) 
     #(do
       (swap! audio-state assoc :data %))))
 
+;; create a new audio node and start it
 (defn start-audio []
   (do
     (make-source)
     (set! (.-buffer (@audio-state :source)) (@audio-state :data))
-    (.connect (@audio-state :source) (.-destination context))
-    (set! (.-loop (@audio-state :source)) true)
     (.start (@audio-state :source) 0)))
 
+;; stop the node and kill it!
 (defn stop-audio []
-  (.stop (@audio-state :source) 0))
+  (do
+    (.stop (@audio-state :source) 0)
+    (swap! audio-state assoc :source nil)))
