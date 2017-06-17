@@ -26,7 +26,6 @@
 (defn do-upload [event]
   (put! upload-reqs event))
 
-
 (go-loop []
   (let [reader (js/FileReader.)
         file (<! upload-reqs)]
