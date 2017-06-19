@@ -1,13 +1,9 @@
 (ns soundthing.components.upload
   (:require 
     [cljs.core.async :refer [chan put!]]
-    [reagent.core :as reagent])
+    [reagent.core :as reagent]
+    [soundthing.data :refer [app-state]])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
-
-(def state 
-  (reagent/atom
-    {:data nil
-    :file-name nil}))
 
 (def first-file
   (map (fn [e]
@@ -29,16 +25,16 @@
 (go-loop []
   (let [reader (js/FileReader.)
         file (<! upload-reqs)]
-    (swap! state assoc :file-name (.-name file))
+    (swap! app-state assoc :file-name (.-name file))
     (set! (.-onload reader) #(put! file-reads %))
     (.readAsArrayBuffer reader file)
     (recur)))
 
 (go-loop []
-  (swap! state assoc :data (<! file-reads))
+  (swap! app-state assoc :file-data (<! file-reads))
   (recur))
 
-(defn button [sample]
+(defn button []
   [:label.button "load"
     [:input.hidden
       {:type "file" :on-change do-upload}]])
