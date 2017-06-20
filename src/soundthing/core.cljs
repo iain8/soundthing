@@ -23,7 +23,8 @@
 (defn home []
   [:div
     [:h1 "soundthing"]
-    [visualiser/canvas]
+    [:div
+      [visualiser/canvas]]
     [upload/button]
     [:button 
       {:on-click #(toggle-audio)

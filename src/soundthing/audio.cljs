@@ -42,9 +42,10 @@
     (swap! app-state assoc :audio-source nil)))
 
 (defn get-freq-data [freq-data]
-  (.getByteFrequencyData analyser freq-data)
-  freq-data)
+  (do
+    (set! (.-fftSize analyser) 512)
+    (.getByteFrequencyData analyser freq-data)
+    freq-data))
 
-;;TODO: why no work
 (defn get-bin-count []
   (.-frequencyBinCount analyser))
