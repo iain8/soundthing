@@ -5,11 +5,15 @@
 
 (def render-ctx (reagent/atom nil))
 
+(def width 300)
+(def height 150)
+
 ;; TODO: width and height
 (defn clear-canvas []
-  (.clearRect @render-ctx 0 0 300 150))
+  (.clearRect @render-ctx 0 0 width height))
 
 (defn render []
+  (.requestAnimationFrame js/window render)
   (clear-canvas)
   (let [bytes (audio/get-freq-data (@app-state :freq-data))
     bin-count (audio/get-bin-count)]
@@ -21,9 +25,23 @@
         (when (< i bin-count)
           (recur (inc i)))))))
 
+;; improved render function!
+(defn render_mk2 []
+  (.requestAnimationFrame js/window render_mk2)
+  (clear-canvas)
+  (let [bytes (audio/get-freq-data (@app-state :freq-data))
+    bin-count (audio/get-bin-count)
+    bar-width (- (* (/ bin-count width) 2.5) 1)]
+    (loop [i 0]
+      (let [bar-height (or (aget bytes i) 100)]
+        (set! (.-fillStyle @render-ctx) (clojure.string/join ["rgb(" (+ bar-height 100) ", 50, 50)"]))
+        (.fillRect @render-ctx (* i bar-width) (- height (/ bar-height 2)) bar-width (/ bar-height 2))
+        (when (< i bin-count)
+          (recur (inc i)))))))
+
 (defn init-canvas [canvas]
   (reset! render-ctx (.getContext canvas "2d"))
-  (.requestAnimationFrame js/window render))
+  (.requestAnimationFrame js/window render_mk2))
 
 (defn canvas []
   (let []
