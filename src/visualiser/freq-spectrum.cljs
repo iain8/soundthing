@@ -1,4 +1,4 @@
-(ns soundthing.components.visualiser
+(ns soundthing.visualiser.freq-spectrum
   (:require [soundthing.audio :as audio]
     [soundthing.data :refer [app-state]]
     [reagent.core :as reagent]))
