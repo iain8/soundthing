@@ -14,7 +14,8 @@
                  [cljs-ajax "0.6.0"]]
 
   :plugins [[lein-figwheel "0.5.10"]
-            [lein-cljsbuild "1.1.5" :exclusions [[org.clojure/clojure]]]]
+            [lein-cljsbuild "1.1.5" :exclusions [[org.clojure/clojure]]]
+            [lein-sassy "1.0.8"]]
 
   :source-paths ["src"]
 
@@ -49,6 +50,10 @@
                            :main soundthing.core
                            :optimizations :advanced
                            :pretty-print false}}]}
+
+  :sass {:src "src/sass/"
+         :dst "resources/public/css/"
+         :style :compressed}
 
   :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
              ;; :server-port 3449 ;; default

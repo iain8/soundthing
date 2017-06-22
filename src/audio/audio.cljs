@@ -11,7 +11,7 @@
 ;; define audio context TODO: into app state
 (defonce context (create-context))
 
-;; TODO: into app state
+;; TODO: into app state?
 (def analyser (.createAnalyser context))
 
 ;; create a new audio source

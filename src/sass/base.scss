@@ -1,0 +1,32 @@
+canvas {
+  background: beige;
+  border: 1px solid #bbb;
+  width: 300px;
+}
+
+.hidden {
+  display: none;
+}
+
+.indicator-button {
+  padding: 0 20px 0 30px;
+  position: relative;
+
+  &:before {
+    background: white;
+    border: 1px solid #bbb;
+    content: '';
+    height: 5px;
+    left: 13px;
+    position: absolute;
+    top: 15px;
+    width: 5px;
+  }
+
+  &.active {
+    &:before {
+      background: #08e408;
+      box-shadow: 0 0 6px 3px rgba(8, 228, 8, 0.15);
+    }
+  }
+}
