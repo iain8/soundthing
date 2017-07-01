@@ -3,8 +3,9 @@
             [soundthing.data :refer [app-state]]
             [soundthing.ui.toggle-audio :as toggle-audio]
             [soundthing.audio :as audio]
-            [soundthing.components.upload :as upload]
-            [soundthing.visualiser.freq-spectrum :as freq-spectrum]))
+            [soundthing.ui.upload :as upload]
+            [soundthing.visualiser.freq-spectrum :as freq-spectrum]
+            [soundthing.visualiser.freq-waveform :as freq-waveform]))
 
 (enable-console-print!)
   
@@ -13,7 +14,8 @@
   [:div
     [:h1 "soundthing"]
     [:div
-      [freq-spectrum/canvas]]
+      [freq-spectrum/canvas]
+      [freq-waveform/canvas]]
     [upload/button]
     [toggle-audio/button]
     [:pre ":audio-loaded " (@app-state :file-name) "\n"

@@ -11,7 +11,7 @@
 (defn clear-canvas []
   (.clearRect @render-ctx 0 0 width height))
 
-;; frequency chart
+;; frequency chart TODO: don't rerender when not playing
 (defn render []
   (.requestAnimationFrame js/window render)
   (clear-canvas)

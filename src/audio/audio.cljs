@@ -1,6 +1,7 @@
 (ns soundthing.audio
   (:require [reagent.core :as reagent]
-    [soundthing.data :refer [app-state]]))
+    [soundthing.data :refer [app-state]]
+    [soundthing.visualiser.freq-waveform :as waveform]))
 
 ;; fetch the audio context TODO: try/catch
 (defn create-context []
@@ -33,6 +34,7 @@
   (do
     (make-source)
     (set! (.-buffer (@app-state :audio-source)) (@app-state :audio-data))
+    (.render waveform)
     (.start (@app-state :audio-source) 0)))
 
 ;; stop the node and kill it!

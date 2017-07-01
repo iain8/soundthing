@@ -1,4 +1,4 @@
-(ns soundthing.components.upload
+(ns soundthing.ui.upload
   (:require 
     [cljs.core.async :refer [chan put!]]
     [reagent.core :as reagent]

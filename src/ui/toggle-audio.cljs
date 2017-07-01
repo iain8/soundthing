@@ -5,8 +5,8 @@
 
 (def state (reagent/atom {:class "indicator-button"}))
 
-;; toggle audio button TODO: remove side-effect
-(defn toggle-audio []
+;; toggle audio button
+(defn toggle-audio! []
   (when (some? (@app-state :audio-data))
     (if (== (@app-state :audio-playing) 0)
       (do
@@ -21,5 +21,5 @@
 ;; start/stop button
 (defn button []
   [:button 
-    {:on-click #(toggle-audio)
+    {:on-click #(toggle-audio!)
     :class (@state :class)} "play"])
