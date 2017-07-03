@@ -15,7 +15,7 @@
     [:h1 "soundthing"]
     [:div
       [freq-spectrum/canvas]
-      [freq-waveform/canvas]]
+      [freq-waveform/canvas (@app-state :audio-source)]]
     [upload/button]
     [toggle-audio/button]
     [:pre ":audio-loaded " (@app-state :file-name) "\n"

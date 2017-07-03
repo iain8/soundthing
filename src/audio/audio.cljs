@@ -34,7 +34,6 @@
   (do
     (make-source)
     (set! (.-buffer (@app-state :audio-source)) (@app-state :audio-data))
-    (.render waveform)
     (.start (@app-state :audio-source) 0)))
 
 ;; stop the node and kill it!
