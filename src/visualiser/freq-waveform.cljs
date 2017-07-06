@@ -32,7 +32,6 @@
           (loop [i 0]
             (let [x (.floor js/Math (/ (* width i) (.-length left-channel)))
               y (* (aget left-channel i) (/ height 2))]
-              ;; why is y NaN?
               (.beginPath context)
               (.moveTo context x 0)
               (.lineTo context (+ x 1) y)
@@ -42,8 +41,6 @@
                 )))
                 (.log js/console "done")
                 (.restore context))))))
-
-          ;; TODO: separate component for time indicator
 
 (defn canvas []
   (let []

@@ -31,3 +31,32 @@ canvas {
     }
   }
 }
+
+.waveform {
+  position: relative;
+
+  .indicator {
+    border: 1px solid red;
+    height: 150px;
+    left: 0;
+    position: absolute;
+    top: 0;
+
+    &.start {
+      animation-duration: 2.6666s;
+      animation-name: move-indicator;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+    }
+  }
+}
+
+@keyframes move-indicator {
+  from {
+    left: 1px;
+  }
+
+  to {
+    left: 299px;
+  }
+}
