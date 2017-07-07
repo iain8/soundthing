@@ -17,15 +17,15 @@
   (swap! state assoc :render-ctx (.getContext canvas "2d")))
 
 (defn render-waveform [this]
-  (let [source (@app-state :audio-source)]
+  (let [source (@app-state :data-source)]
     (if source
       (do (clear-canvas)
         (let [left-channel (.getChannelData (.-buffer source) 0)
           line-opacity (/ width (.-length left-channel))
           context (@state :render-ctx)]
           (.save context)
-          (set! (.-fillStyle context) "#222")
-          (set! (.-strokeStyle context) "#211")
+          (set! (.-fillStyle context) "#A8A86A")
+          (set! (.-strokeStyle context) "#A8A86A")
           ; (set! (.-globalCompositeOperation context) "lighter")
           (.translate context 0 (/ height 2))
           (set! (.-globalAlpha context) 0.06)

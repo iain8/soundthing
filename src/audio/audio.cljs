@@ -27,7 +27,10 @@
 (defn add-to-source [data]
   (.then (.decodeAudioData context data) 
     #(do
-      (swap! app-state assoc :audio-data %))))
+      (swap! app-state assoc :audio-data %)
+      (swap! app-state assoc :data-source (.createBufferSource context))
+      (set! (.-buffer (@app-state :data-source)) %)
+      )))
 
 ;; create a new audio node and start it
 (defn start-audio []
