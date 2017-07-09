@@ -1,11 +1,11 @@
 (ns soundthing.core
   (:require [reagent.core :as reagent]
+            [soundthing.audio :as audio]
             [soundthing.data :refer [app-state]]
             [soundthing.ui.toggle-audio :as toggle-audio]
-            [soundthing.audio :as audio]
             [soundthing.ui.upload :as upload]
-            [soundthing.visualiser.freq-spectrum :as freq-spectrum]
-            [soundthing.ui.waveform :as waveform]))
+            [soundthing.ui.waveform :as waveform]
+            [soundthing.visualiser.freq-spectrum :as freq-spectrum]))
 
 (enable-console-print!)
   
@@ -20,9 +20,6 @@
     [toggle-audio/button]
     [:pre ":audio-loaded " (@app-state :file-name) "\n"
       ":audio-playing " (@app-state :audio-playing)]
-    (if (@app-state :audio-source)
-      [:pre ":duration " (.-duration (.-buffer (@app-state :audio-source)))]
-    )
   ])
 
 ;; render!

@@ -7,12 +7,12 @@
 (defn pad-number [number]
   (if (< 9 number)
     (str number)
-    (apply str "0" (str number))))
+    (str "0" (str number))))
 
-(defn seconds-to-minutes [time]
+(defn seconds->minutes [time]
   (let [seconds (.round js/Math (mod time 60))
     minutes (.floor js/Math (/ time 60))]
-      (apply str (pad-number minutes) ":" (pad-number seconds))))
+      (str (pad-number minutes) ":" (pad-number seconds))))
 
 (defn waveform []
   [:div {:class "waveform"}
@@ -20,5 +20,5 @@
     [indicator/element (@app-state :audio-playing)]
     [:span {:class "duration"} 
       (if (@app-state :data-source)
-        (seconds-to-minutes (.. (@app-state :data-source) -buffer -duration))
+        (seconds->minutes (.. (@app-state :data-source) -buffer -duration))
         "00:00")]])
