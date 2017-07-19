@@ -37,6 +37,7 @@ canvas {
 
   .indicator {
     border: 1px solid #865571;
+    display: none;
     height: 150px;
     left: 0;
     position: absolute;
@@ -54,6 +55,35 @@ canvas {
     position: absolute;
     left: 260px;
     top: 0px;
+  }
+
+  .loading-blind {
+    background-color: white;
+    display: none;
+    height: 150px;
+    left: 1px;
+    opacity: 0.5;
+    position: absolute;
+    top: 1px;
+    width: 300px;
+
+    img {
+      left: 125px;
+      position: absolute;
+      top: 65px;
+    }
+  }
+
+  &.loading {
+    .loading-blind {
+      display: block;
+    }
+  }
+
+  &.loaded {
+    .indicator {
+      display: block;
+    }
   }
 }
 

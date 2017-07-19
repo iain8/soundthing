@@ -15,7 +15,9 @@
       (str (pad-number minutes) ":" (pad-number seconds))))
 
 (defn waveform []
-  [:div {:class "waveform"}
+  [:div {:class (clojure.string/join " " ["waveform" (@app-state :spectrum-loading)])}
+    [:div {:class "loading-blind"}
+      [:img {:src "/img/716.gif"}]]
     [freq-waveform/canvas (@app-state :data-source)]
     [indicator/element (@app-state :audio-playing)]
     [:span {:class "duration"} 

@@ -26,6 +26,7 @@
   (let [reader (js/FileReader.)
         file (<! upload-reqs)]
     (swap! app-state assoc :file-name (.-name file))
+    (swap! app-state assoc :spectrum-loading "loading")
     (set! (.-onload reader) #(put! file-reads %))
     (.readAsArrayBuffer reader file)
     (recur)))
