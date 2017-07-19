@@ -17,18 +17,13 @@
   (clear-canvas)
   (let [bytes (audio/get-freq-data (@app-state :freq-data))
     bin-count (audio/get-bin-count)
-    bar-width (- (* (/ width bin-count) 2.5) 1)] ;; not quite right
+    bar-width (* (/ width bin-count) 4)]
     (loop [i 0]
       (let [bar-height (or (aget bytes i) 0)]
-        ; (set! (.-fillStyle @render-ctx) (clojure.string/join ["rgb(" (+ bar-height 100) ", 50, 50)"]))
         (set! (.-fillStyle @render-ctx) "#A8A86A")
-        (.fillRect @render-ctx (* i bar-width) (- height (/ bar-height 2)) bar-width (/ bar-height 2))
+        (.fillRect @render-ctx (* i bar-width) (- height (/ bar-height 2)) (- bar-width 1) (/ bar-height 2))
         (when (< i bin-count)
           (recur (inc i)))))))
-
-;; 96, 88, 122 for thingy
-
-;; TODO: method for proportional adjustment of rgb color or we can use HSL via CSS3
 
 (defn init-canvas [canvas]
   (reset! render-ctx (.getContext canvas "2d"))
