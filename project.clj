@@ -10,11 +10,12 @@
                  [org.clojure/clojurescript "1.9.229"]
                  [org.clojure/core.async  "0.3.442"
                   :exclusions [org.clojure/tools.reader]]
-                 [re-frame "0.9.3"]
-                 [reagent "0.6.2"]]
+                 [reagent "0.6.2"]
+                 [cljs-ajax "0.6.0"]]
 
   :plugins [[lein-figwheel "0.5.10"]
-            [lein-cljsbuild "1.1.5" :exclusions [[org.clojure/clojure]]]]
+            [lein-cljsbuild "1.1.5" :exclusions [[org.clojure/clojure]]]
+            [lein-sassy "1.0.8"]]
 
   :source-paths ["src"]
 
@@ -25,7 +26,7 @@
                 ;; the presence of a :figwheel configuration here
                 ;; will cause figwheel to inject the figwheel client
                 ;; into your build
-                :figwheel {:on-jsload "soundthing.core/on-js-reload"
+                :figwheel {:on-jsload "soundthing.core/init!"
                            ;; :open-urls will pop open your application
                            ;; in the default browser once Figwheel has
                            ;; started and complied your application.
@@ -49,6 +50,10 @@
                            :main soundthing.core
                            :optimizations :advanced
                            :pretty-print false}}]}
+
+  :sass {:src "src/sass/"
+         :dst "resources/public/css/"
+         :style :compressed}
 
   :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
              ;; :server-port 3449 ;; default
