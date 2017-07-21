@@ -2,6 +2,7 @@
   (:require [reagent.core :as reagent]
             [soundthing.audio :as audio]
             [soundthing.data :refer [app-state]]
+            [soundthing.ui.pitch-control :as pitch-control]
             [soundthing.ui.toggle-audio :as toggle-audio]
             [soundthing.ui.upload :as upload]
             [soundthing.ui.waveform :as waveform]
@@ -18,12 +19,7 @@
       [waveform/waveform]]
     [upload/button]
     [toggle-audio/button]
-    [:input {:type "number"
-      :max 2
-      :min 0
-      :step 0.1
-      :value (@app-state :audio-rate)
-      :on-change #(swap! app-state assoc :audio-rate (-> % .-target .-value))}]
+    [pitch-control/el]
     [:pre ":audio-loaded " (@app-state :file-name) "\n"
       ":audio-playing " (@app-state :audio-playing)]
   ])

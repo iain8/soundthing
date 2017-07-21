@@ -13,7 +13,6 @@
   (if (== (@app-state :audio-playing) 1)
     (swap! state assoc :class "indicator start")
     (swap! state assoc :class "indicator")))
-    ;; TODO: reduce this via apply str
 
 (defn element []
   (let []
