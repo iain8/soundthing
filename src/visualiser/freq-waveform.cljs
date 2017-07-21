@@ -22,7 +22,6 @@
 (defn render-waveform [this]
   (go
     (let [source (@app-state :data-source)]
-      (.log js/console "rendering")
       (if source
         (do
           (clear-canvas)
@@ -49,12 +48,6 @@
                   (.restore context)))))
                   this))
 
-; (defn do-next-thing []
-;   (.log js/console "hi mom"))
-
-; (def render-reqs (chan 2 render-waveform))
-; (def finish-loading (chan 2 do-next-thing))
-
 (defn canvas []
   (let []
     (reagent/create-class
@@ -62,10 +55,6 @@
         (fn [this]
           (init-canvas (reagent/dom-node this)))
       :component-will-receive-props render-waveform
-        ; (fn [this]
-        ;   (do
-        ;     (.log js/console "pre hi mom")
-        ;     (put! render-reqs this)))
       :reagent-render
         (fn []
           [:div

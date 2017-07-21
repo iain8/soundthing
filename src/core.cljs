@@ -18,6 +18,12 @@
       [waveform/waveform]]
     [upload/button]
     [toggle-audio/button]
+    [:input {:type "number"
+      :max 2
+      :min 0
+      :step 0.1
+      :value (@app-state :audio-rate)
+      :on-change #(swap! app-state assoc :audio-rate (-> % .-target .-value))}]
     [:pre ":audio-loaded " (@app-state :file-name) "\n"
       ":audio-playing " (@app-state :audio-playing)]
   ])

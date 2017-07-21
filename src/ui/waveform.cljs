@@ -10,7 +10,7 @@
     (str "0" (str number))))
 
 (defn seconds->minutes [time]
-  (let [seconds (.round js/Math (mod time 60))
+  (let [seconds (.round js/Math (/ (mod time 60) (@app-state :audio-rate)))
     minutes (.floor js/Math (/ time 60))]
       (str (pad-number minutes) ":" (pad-number seconds))))
 

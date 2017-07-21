@@ -25,4 +25,4 @@
       :reagent-render
         (fn []
           [:div {:class (@state :class)
-            :style {:animation-duration (apply str (@state :duration) "s")}}])})))
+            :style {:animation-duration (apply str (/ (@state :duration) (@app-state :audio-rate)) "s")}}])})))

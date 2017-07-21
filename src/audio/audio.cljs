@@ -9,11 +9,11 @@
     (js/window.AudioContext.)
     (js/window.webkitAudioContext.)))
 
-;; define audio context TODO: into app state
+;; define audio context
 (defonce context (create-context))
 
-;; TODO: into app state?
 (def analyser (.createAnalyser context))
+(def convolver (.createConvolver context))
 
 ;; create a new audio source
 (defn make-source []
@@ -21,7 +21,8 @@
     (swap! app-state assoc :audio-source (.createBufferSource context))
     (.connect (@app-state :audio-source) (.-destination context))
     (.connect (@app-state :audio-source) analyser)
-    (set! (.-loop (@app-state :audio-source)) true)))
+    (set! (.-loop (@app-state :audio-source)) true)
+    (set! (.. (@app-state :audio-source) -playbackRate -value) (@app-state :audio-rate))))
 
 ;; decode audio and add to state
 (defn add-to-source [data]
