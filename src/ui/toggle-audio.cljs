@@ -9,7 +9,7 @@
 (defn toggle-audio! []
   (if (and (some? (@app-state :audio-data)) (== (@app-state :audio-playing) 0))
     (do
-      (audio/start-audio)
+      (audio/start-audio 0)
       (swap! app-state assoc :audio-playing 1)
       (swap! state assoc :class "active"))
     (do

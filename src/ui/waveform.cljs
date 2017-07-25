@@ -2,7 +2,8 @@
   (:require [reagent.core :as reagent]
     [soundthing.data :refer [app-state]]
     [soundthing.visualiser.freq-waveform :as freq-waveform]
-    [soundthing.ui.indicator :as indicator]))
+    [soundthing.ui.indicator :as indicator]
+    [soundthing.ui.loop-points :as loop-points]))
 
 (defn pad-number [number]
   (if (< 9 number)
@@ -20,6 +21,7 @@
       [:img {:src "/img/716.gif"}]]
     [freq-waveform/canvas (@app-state :data-source)]
     [indicator/element (@app-state :audio-playing)]
+    [loop-points/element]
     [:span {:class "duration"} 
       (if (@app-state :data-source)
         (seconds->minutes (.. (@app-state :data-source) -buffer -duration))

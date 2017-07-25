@@ -13,4 +13,5 @@
     :file-data nil ;; TODO: is this used?
     :file-name nil ;; name of audio file
     :freq-data (js/Uint8Array. 64) ;; TODO: should be in global state?
-    :spectrum-loaded ""}))
+    :spectrum-loaded ""
+    :start-time 0}))

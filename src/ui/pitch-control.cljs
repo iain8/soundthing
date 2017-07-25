@@ -1,9 +1,11 @@
 (ns soundthing.ui.pitch-control
   (:require [reagent.core :as reagent]
-    [soundthing.data :refer [app-state]]))
+    [soundthing.data :refer [app-state]]
+    [soundthing.audio :as audio]))
 
 (defn pitch-change [event]
-  (swap! app-state assoc :audio-rate (.. event -target -value)))
+  (swap! app-state assoc :audio-rate (.. event -target -value))
+  (audio/re-pitch))
 
 (defn el []
   [:input {:type "number"

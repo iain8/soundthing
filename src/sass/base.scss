@@ -51,6 +51,27 @@ canvas {
     }
   }
 
+  .loop-point {
+    border: 1px solid red;
+    cursor: pointer;
+    height: 150px;
+    left: 50px;
+    position: absolute;
+    top: 0;
+
+    &:after {
+      border-color: transparent transparent transparent #ff0000;
+      border-style: solid;
+      border-width: 10px 0 0 10px;
+      bottom: -1px;
+      content: " ";
+      height: 0;
+      left: -1px;
+      position: absolute;
+      width: 0;
+    }
+  }
+
   .duration {
     position: absolute;
     left: 260px;
