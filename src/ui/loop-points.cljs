@@ -1,10 +1,8 @@
 (ns soundthing.ui.loop-points
   (:require [reagent.core :as reagent]
-    [goog.events :as events])
+    [goog.events :as events]
+    [soundthing.data :refer [app-state]])
   (:import [goog.events EventType])) ;; TODO: just mousemove, mouseup
-
-(def position (reagent/atom {:x -1
-  :start-x 0}))
 
 (defn get-client-rect [evt]
   (let [r (.getBoundingClientRect (.-target evt))]
@@ -14,22 +12,24 @@
   (fn [evt]
     (let [x (- (- (.-clientX evt) (:x offset)) (@position :start-x))]
       (if (and (> x 0) (< x 298))
-        (swap! position assoc :x x)))))
+        (swap! app-state assoc :loop-start x)))))
 
 (defn mouse-up [on-move]
   (fn me [evt]
     (events/unlisten js/window EventType.MOUSEMOVE on-move)))
 
-(defn mouse-down [event]
+(defn mouse-down [event position]
   (let [left ((get-client-rect event) :left)
         offset {:x (- (.-clientX event) left)}
         on-move (mouse-move offset)]
-    (if (== (@position :start-x) 0)
-      (swap! position assoc :start-x left))
+    (if (== (@position :start) 0)
+      (swap! position assoc :start left))
     (events/listen js/window EventType.MOUSEMOVE on-move)
     (events/listen js/window EventType.MOUSEUP (mouse-up on-move))))
 
-(defn element []
-  [:div {:class "loop-point"
-    :style {:left (@position :x)}
-    :on-mouse-down mouse-down}])
+(defn element [type x]
+  (let [position (reagent/atom {:start x})]
+    (fn [] 
+      [:div {:class (str "loop-point " type)
+      :style {:left x}
+      :on-mouse-down (fn [event] (mouse-down event position))}])))

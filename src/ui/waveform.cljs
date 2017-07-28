@@ -21,7 +21,8 @@
       [:img {:src "/img/716.gif"}]]
     [freq-waveform/canvas (@app-state :data-source)]
     [indicator/element (@app-state :audio-playing)]
-    [loop-points/element]
+    [loop-points/element "start" (@app-state :loop-start)]
+    [loop-points/element "end" (@app-state :loop-end)]
     [:span {:class "duration"} 
       (if (@app-state :data-source)
         (seconds->minutes (.. (@app-state :data-source) -buffer -duration))
